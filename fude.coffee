@@ -30,11 +30,8 @@ $ ->
         top      : y - (@size / 2)
         left     : x - (@size / 2)
       }
-    hit_as_rect : (element) ->
-      #
     hit : (element) ->
-      $(element).
-      return false
+      # hit check
     equal : (element) ->
       return @target.get(0) == $(element).get(0)
 

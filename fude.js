@@ -53,11 +53,7 @@ $(function() {
       });
     };
 
-    FudeCursor.prototype.hit_as_rect = function(element) {};
-
-    FudeCursor.prototype.hit = function(element) {
-      return $(element)["return"](false);
-    };
+    FudeCursor.prototype.hit = function(element) {};
 
     FudeCursor.prototype.equal = function(element) {
       return this.target.get(0) === $(element).get(0);
