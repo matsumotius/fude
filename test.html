@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>fude example</title>
+    <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="fude.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        $("#paper").fude();
+      });
+    </script>
+    <style>
+      #paper {
+        width  : 300px;
+        height : 300px;
+        background-color : #333;
+      }
+      .box {
+        width  : 100px;
+        height : 100px;
+        background-color : #666;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>fude</h1>
+    <div id="paper">
+      <div class="box"></div>
+    </div>
+  </body>
+</html>
