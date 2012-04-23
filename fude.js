@@ -133,16 +133,27 @@ $(function() {
       }
       this.cursor.update(this.page_x, this.page_y);
       return this.target.find("*:visible").filter(function(index) {
+        var element, point;
         if (that.cursor.equal(this)) {
           return;
         }
-        if (!that.cursor.hit($(this))) {
-          return;
-        }
-        return $(this).trigger("fudemove", {
+        element = $(this);
+        point = {
           x: that.page_x,
           y: that.page_y
-        });
+        };
+        if (that.cursor.hit(element)) {
+          element.trigger("fudemove", point);
+          if (!jQuery.data(this, "over")) {
+            element.trigger("fudeover", point);
+          }
+          return jQuery.data(this, "over", 1);
+        } else {
+          if (jQuery.data(this, "over")) {
+            element.trigger("fudeout", point);
+          }
+          return jQuery.removeData(this);
+        }
       });
     };
 

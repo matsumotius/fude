@@ -78,11 +78,15 @@ $ ->
       @cursor.update @page_x, @page_y
       @target.find("*:visible").filter((index) ->
         return if that.cursor.equal(this)
-        return if not that.cursor.hit($(this))
-        $(this).trigger("fudemove", { 
-          x : that.page_x
-          y : that.page_y
-        })
+        element = $(this)
+        point   = { x : that.page_x, y : that.page_y }
+        if that.cursor.hit(element)
+          element.trigger("fudemove", point)
+          element.trigger("fudeover", point) if not jQuery.data(this, "over")
+          jQuery.data(this, "over", 1)
+        else
+          element.trigger("fudeout", point) if jQuery.data(this, "over")
+          jQuery.removeData(this)
       )
     is_out : () ->
       x      = @target.offset().left
