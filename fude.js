@@ -6,15 +6,16 @@ $(function() {
 
     FudeCursor.name = 'FudeCursor';
 
-    function FudeCursor(size, icon) {
+    function FudeCursor(size, icon, color) {
       this.size = size;
       this.icon = icon;
+      this.color = color;
       this.x = 0;
       this.y = 0;
       this.css = {
         "display": "none",
-        "background-color": "#000",
         "position": "absolute",
+        "background-color": "" + this.color,
         "width": "" + this.size + "px",
         "height": "" + this.size + "px",
         "border-radius": "" + this.size + "px",
@@ -92,9 +93,10 @@ $(function() {
       this.target = target;
       this.page_x = 0;
       this.page_y = 0;
-      this.size = 30;
-      this.icon = "pointer.gif";
-      this.cursor = new FudeCursor(this.size, this.icon);
+      this.size = option.size;
+      this.icon = option.icon;
+      this.color = option.color;
+      this.cursor = new FudeCursor(this.size, this.icon, this.color);
       this.set_task();
       this.set_event();
       this.set_cursor();
@@ -191,6 +193,12 @@ $(function() {
 
   })();
   return $.fn.fude = function(option) {
-    return new Fude($(this), option);
+    var default_option;
+    default_option = {
+      size: 30,
+      icon: "pointer.gif",
+      color: "#000"
+    };
+    return new Fude($(this), jQuery.extend(default_option, option));
   };
 });

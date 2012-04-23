@@ -7,7 +7,11 @@
     <script type="text/javascript" src="fude.js"></script>
     <script type="text/javascript">
       $(function(){
-        $("#paper").fude();
+        $("#paper").fude({
+          size  : 30,
+          color : "#000",
+          icon  : "pointer.gif"
+        });
         $(".box").bind("fudeclick", function(e, data){
           $(this).css("background-color", "orange");
         });
@@ -38,6 +42,7 @@
   </head>
   <body>
     <h1>fude</h1>
+    <p>click, move, over, out</p>
     <div id="paper">
       <div class="box"></div>
       <div class="box"></div>

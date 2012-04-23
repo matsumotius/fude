@@ -1,12 +1,12 @@
 $ ->
   class FudeCursor
-    constructor : (@size, @icon) ->
+    constructor : (@size, @icon, @color) ->
       @x   = 0
       @y   = 0
       @css =
         "display"               : "none"
-        "background-color"      : "#000"
         "position"              : "absolute"
+        "background-color"      : "#{@color}"
         "width"                 : "#{@size}px"
         "height"                : "#{@size}px"
         "border-radius"         : "#{@size}px"
@@ -53,9 +53,10 @@ $ ->
     constructor : (@target, option) ->
       @page_x = 0
       @page_y = 0
-      @size   = 30
-      @icon   = "pointer.gif"
-      @cursor = new FudeCursor @size, @icon
+      @size   = option.size
+      @icon   = option.icon
+      @color  = option.color
+      @cursor = new FudeCursor @size, @icon, @color
       this.set_task()
       this.set_event()
       this.set_cursor()
@@ -105,4 +106,8 @@ $ ->
       return false
 
   $.fn.fude = (option) ->
-    return new Fude $(this), option
+    default_option =
+      size  : 30
+      icon  : "pointer.gif"
+      color : "#000"
+    return new Fude $(this), jQuery.extend(default_option, option)
