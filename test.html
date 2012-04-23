@@ -8,6 +8,9 @@
     <script type="text/javascript">
       $(function(){
         $("#paper").fude();
+        $(".box").bind("fudeclick", function(e, data){
+          $(this).css("background-color", "orange");
+        });
         $(".box").bind("fudemove", function(e, data){
           $("#log").html("fudemove event<br>x : " + data.x + " y : " + data.y);
         });

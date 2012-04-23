@@ -65,6 +65,13 @@ $ ->
         that.page_x = e.pageX
         that.page_y = e.pageY
       )
+      @target.click((e) ->
+        $(this).find("*:visible").filter((index) ->
+          return if that.cursor.equal(this)
+          point = { x : that.page_x, y : that.page_y }
+          $(this).trigger("fudeclick", point) if that.cursor.hit($(this))
+        )
+      )
     set_task   : () ->
       that = this
       task = () -> that.update()

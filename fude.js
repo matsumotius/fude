@@ -103,9 +103,24 @@ $(function() {
     Fude.prototype.set_event = function() {
       var that;
       that = this;
-      return $("html").mousemove(function(e) {
+      $("html").mousemove(function(e) {
         that.page_x = e.pageX;
         return that.page_y = e.pageY;
+      });
+      return this.target.click(function(e) {
+        return $(this).find("*:visible").filter(function(index) {
+          var point;
+          if (that.cursor.equal(this)) {
+            return;
+          }
+          point = {
+            x: that.page_x,
+            y: that.page_y
+          };
+          if (that.cursor.hit($(this))) {
+            return $(this).trigger("fudeclick", point);
+          }
+        });
       });
     };
 
