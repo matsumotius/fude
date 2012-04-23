@@ -53,7 +53,29 @@ $(function() {
       });
     };
 
-    FudeCursor.prototype.hit = function(element) {};
+    FudeCursor.prototype.hit = function(element) {
+      var a, b, r, square, x, x_end, y, y_end;
+      square = function(num) {
+        return num * num;
+      };
+      x = element.offset().left;
+      y = element.offset().top;
+      x_end = x + element.width();
+      y_end = y + element.height();
+      a = this.x;
+      b = this.y;
+      r = this.size / 2;
+      if ((x < a && a < x_end) && (y - r < b && b < y_end + r)) {
+        return true;
+      }
+      if ((y < b && b < y_end) && (x - r < a && a < x_end + r)) {
+        return true;
+      }
+      if (square(x - a) + square(y - b) < square(r) || square(x - a) + square(y_end - b) < square(r) || square(x_end - a) + square(y - b) < square(r) || square(x_end - a) + square(y_end - b) < square(r)) {
+        return true;
+      }
+      return false;
+    };
 
     FudeCursor.prototype.equal = function(element) {
       return this.target.get(0) === $(element).get(0);
@@ -109,15 +131,19 @@ $(function() {
       if (!this.is_out() && !this.cursor.is_visible) {
         this.cursor.show();
       }
-      return this.cursor.update(this.page_x, this.page_y);
-      /*
-            @target.find("*:visible").filter((index) ->
-              return if that.cursor.equal(this)
-              return if not that.cursor.hit(this)
-              console.log "hit"
-            )
-      */
-
+      this.cursor.update(this.page_x, this.page_y);
+      return this.target.find("*:visible").filter(function(index) {
+        if (that.cursor.equal(this)) {
+          return;
+        }
+        if (!that.cursor.hit($(this))) {
+          return;
+        }
+        return $(this).trigger("fudemove", {
+          x: that.page_x,
+          y: that.page_y
+        });
+      });
     };
 
     Fude.prototype.is_out = function() {

@@ -8,7 +8,10 @@
     <script type="text/javascript">
       $(function(){
         $("#paper").fude();
-      });
+        $(".box").bind("fudemove", function(e, data){
+          $("#log").html("fudemove event<br>x : " + data.x + " y : " + data.y);
+        });
+     });
     </script>
     <style>
       #paper {
@@ -28,5 +31,6 @@
     <div id="paper">
       <div class="box"></div>
     </div>
+    <div id="log"></div>
   </body>
 </html>

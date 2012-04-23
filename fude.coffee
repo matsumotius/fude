@@ -31,7 +31,21 @@ $ ->
         left     : x - (@size / 2)
       }
     hit : (element) ->
-      # hit check
+      square = (num) -> return num * num
+      x      = element.offset().left
+      y      = element.offset().top
+      x_end  = x + element.width()
+      y_end  = y + element.height()
+      a      = @x
+      b      = @y
+      r      = @size / 2
+      return true if (x<a and a<x_end) and (y-r<b and b<y_end+r)
+      return true if (y<b and b<y_end) and (x-r<a and a<x_end+r)
+      return true if square(x-a)     + square(y-b)     < square(r) or
+                     square(x-a)     + square(y_end-b) < square(r) or
+                     square(x_end-a) + square(y-b)     < square(r) or
+                     square(x_end-a) + square(y_end-b) < square(r)
+      return false
     equal : (element) ->
       return @target.get(0) == $(element).get(0)
 
@@ -62,13 +76,14 @@ $ ->
       @cursor.hide() if this.is_out() and @cursor.is_visible
       @cursor.show() if not this.is_out() and not @cursor.is_visible
       @cursor.update @page_x, @page_y
-      ###
       @target.find("*:visible").filter((index) ->
         return if that.cursor.equal(this)
-        return if not that.cursor.hit(this)
-        console.log "hit"
+        return if not that.cursor.hit($(this))
+        $(this).trigger("fudemove", { 
+          x : that.page_x
+          y : that.page_y
+        })
       )
-      ###
     is_out : () ->
       x      = @target.offset().left
       y      = @target.offset().top
